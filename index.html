@@ -1,32 +1,46 @@
 
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <title>KlikeBooth — peek a booth</title>
+  <meta name="theme-color" content="#092328">
+
+  <meta name="description" content="KlikeBooth — A modern photo experience. Capture your moments and keep them forever.">
+
+  <title>KlikeBooth — Peek a Booth</title>
+
+  <!-- GOOGLE FONTS -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
 
   <link rel="stylesheet" href="style.css">
+
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
+  <!-- ==================================
+       NAVIGATION
+  =================================== -->
 
   <nav class="navbar">
 
     <a href="#" class="logo">
-      Klike<span>Booth.</span>
+      KLIKE<span>BOOTH.</span>
     </a>
 
     <p class="nav-tagline">
-      PEEK A BOOTH <span>✳</span>
+      PEEK A BOOTH
+      <span> / </span>
+      EST. 2026
     </p>
 
   </nav>
@@ -34,72 +48,108 @@
 
   <main>
 
-    <!-- =========================
-         HOME PAGE
-    ========================== -->
+    <!-- ==================================
+         HOME / HERO SECTION
+    =================================== -->
 
     <section id="homePage" class="hero-section">
 
+      <!-- TOP INFORMATION -->
+
       <div class="hero-top">
-        <span class="eyebrow">YOUR LITTLE PHOTO CORNER</span>
-        <span class="edition">NO. 001 / EST. 2026</span>
+
+        <span class="eyebrow">
+          INDEPENDENT PHOTO EXPERIENCE
+        </span>
+
+        <span class="edition">
+          NO. 001 / 2026
+        </span>
+
       </div>
 
 
+      <!-- HERO CONTENT -->
+
       <div class="hero-content">
+
+
+        <!-- LEFT CONTENT -->
 
         <div class="hero-copy">
 
           <p class="small-intro">
-            A LITTLE CLICK, A LOT OF MEMORIES.
+            YOUR MOMENT. YOUR FRAME.
           </p>
+
 
           <h1>
-            Keep your<br>
-            moments <span>kliked.</span>
+            CAPTURE<br>
+            THE <span>MOMENT.</span><br>
+            KEEP IT.
           </h1>
 
+
           <p class="hero-description">
-            A little space to capture your favorite moments.
-            Strike a pose, take a picture, and keep the memory.
+            Not just another picture.
+            A moment worth keeping, captured
+            in your own way.
           </p>
 
+
           <button id="startBtn" class="primary-btn">
-            LET'S TAKE A PIC <span>↗</span>
+
+            ENTER THE BOOTH
+
+            <span>↗</span>
+
           </button>
 
+
           <p class="hero-note">
-            NO FILTER NEEDED. JUST BE YOU.
+            FRAME YOUR MOMENT / MAKE IT LAST.
           </p>
 
         </div>
 
 
-        <!-- HERO ART -->
+
+        <!-- RIGHT VISUAL -->
 
         <div class="hero-art">
 
-          <div class="art-sticker sticker-top">
-            SAY CHEESE!
+          <div class="art-index">
+            <span>VISUAL STUDY</span>
+            <span>001 — 026</span>
           </div>
+
 
           <div class="photo-card photo-back">
 
             <div class="photo-placeholder blue-placeholder">
-              <span>✳</span>
+
+              <span>01</span>
+
+              <div class="photo-overlay-text">
+                THE ART OF<br>BEING PRESENT.
+              </div>
+
             </div>
 
           </div>
+
 
 
           <div class="photo-card photo-front">
 
             <div class="photo-placeholder cream-placeholder">
 
-              <span class="smile-face">☺</span>
+              <div class="photo-graphic">
+                <span>KB.</span>
+              </div>
 
               <span class="photo-caption">
-                A MOMENT TO KEEP
+                KLIKEBOOTH / ORIGINAL FRAME
               </span>
 
             </div>
@@ -107,22 +157,31 @@
           </div>
 
 
-          <div class="art-sticker sticker-bottom">
-            CLICK! ✦
-          </div>
+          <div class="art-label">
 
-          <div class="art-star">✳</div>
+            <span>ANALOG FEEL.</span>
+
+            <span>DIGITAL MEMORY.</span>
+
+          </div>
 
         </div>
 
       </div>
 
 
+
+      <!-- HERO BOTTOM INFORMATION -->
+
       <div class="hero-footer">
 
-        <span>CAPTURE THE LITTLE THINGS.</span>
+        <span>01 — CAPTURE</span>
 
-        <span>MADE FOR YOUR MOMENTS — ♥</span>
+        <span>02 — CUSTOMIZE</span>
+
+        <span>03 — KEEP FOREVER</span>
+
+        <span>KLIKEBOOTH © 2026</span>
 
       </div>
 
@@ -130,106 +189,198 @@
 
 
 
-    <!-- =========================
-         CAMERA PAGE
-    ========================== -->
+    <!-- ==================================
+         PHOTOBOOTH SECTION
+    =================================== -->
 
     <section id="boothPage" class="booth-section hidden">
 
 
+      <!-- SECTION HEADING -->
+
       <div class="section-heading">
 
-        <span class="eyebrow">
-          KLIKEBOOTH / CAMERA ROOM
-        </span>
+        <div class="section-heading-top">
+
+          <span class="eyebrow">
+            KLIKEBOOTH / CAMERA ROOM
+          </span>
+
+          <span class="edition">
+            SESSION NO. 001
+          </span>
+
+        </div>
+
 
         <h2>
-          Ready, <span>set, smile!</span>
+          YOUR MOMENT.<br>
+          <span>YOUR FRAME.</span>
         </h2>
 
+
         <p>
-          Find your angle and let the camera do its thing.
+          Set your frame, choose your look, and make it yours.
         </p>
 
       </div>
 
 
 
-      <!-- CAMERA LAYOUT -->
+      <!-- CAMERA WORKSPACE -->
 
       <div class="camera-layout">
 
 
-        <!-- CAMERA FRAME -->
+        <!-- CAMERA PANEL -->
 
-        <div class="camera-frame">
+        <div class="camera-panel">
 
-          <div class="camera-label">
+          <div class="camera-panel-header">
 
-            <span>● LIVE CAMERA</span>
+            <span>LIVE PREVIEW</span>
 
-            <span>01 / YOUR SHOT</span>
+            <span class="camera-indicator">
+              <span class="live-dot"></span>
+              CAMERA 01 / ACTIVE
+            </span>
 
           </div>
 
 
-          <video id="video" autoplay playsinline muted></video>
+          <div class="camera-frame">
 
-          <canvas id="canvas" class="hidden"></canvas>
+            <div class="camera-label">
 
-          <div id="countdown" class="countdown"></div>
+              <span>KLK / 001</span>
+
+              <span>PHOTO MODE</span>
+
+            </div>
+
+
+            <video
+              id="video"
+              autoplay
+              playsinline
+              muted>
+            </video>
+
+
+            <canvas
+              id="canvas"
+              class="hidden">
+            </canvas>
+
+
+            <div
+              id="countdown"
+              class="countdown">
+            </div>
+
+          </div>
+
+
+          <div class="camera-panel-footer">
+
+            <span>LIVE CAPTURE SYSTEM</span>
+
+            <span>4 : 3 / STANDARD VIEW</span>
+
+          </div>
 
         </div>
 
 
 
-        <!-- CAMERA OPTIONS -->
+        <!-- CAMERA CONTROL PANEL -->
 
         <div class="camera-side">
 
-          <span class="side-number">01</span>
 
-          <h3>
-            Make it<br>
-            <em>memorable.</em>
-          </h3>
+          <div class="control-heading">
 
-          <p id="cameraStatus">
-            Your camera is waiting. Get comfortable and show us your best smile.
-          </p>
+            <span class="side-number">
+              CONTROL PANEL / 01
+            </span>
+
+            <h3>
+              MAKE IT<br>
+              <em>YOURS.</em>
+            </h3>
+
+            <p id="cameraStatus">
+              Your camera is waiting.
+              Get ready to capture your moment.
+            </p>
+
+          </div>
 
 
 
-          <!-- FILTER OPTIONS -->
+          <!-- FILTER CONTROL -->
 
           <div class="booth-options">
 
-            <label>01 / CHOOSE YOUR FILTER</label>
+            <label>
+              <span>01</span>
+              IMAGE TREATMENT
+            </label>
+
 
             <div class="filter-options">
 
-              <button class="filter-btn active" data-filter="none">
+              <button
+                class="filter-btn active"
+                data-filter="none">
+
                 Original
+
               </button>
 
-              <button class="filter-btn" data-filter="vintage">
+
+              <button
+                class="filter-btn"
+                data-filter="vintage">
+
                 Vintage
+
               </button>
 
-              <button class="filter-btn" data-filter="warm">
+
+              <button
+                class="filter-btn"
+                data-filter="warm">
+
                 Warm
+
               </button>
 
-              <button class="filter-btn" data-filter="mono">
+
+              <button
+                class="filter-btn"
+                data-filter="mono">
+
                 B&W
+
               </button>
 
-              <button class="filter-btn" data-filter="soft">
+
+              <button
+                class="filter-btn"
+                data-filter="soft">
+
                 Soft
+
               </button>
 
-              <button class="filter-btn" data-filter="cool">
+
+              <button
+                class="filter-btn"
+                data-filter="cool">
+
                 Cool
+
               </button>
 
             </div>
@@ -238,13 +389,18 @@
 
 
 
-          <!-- PHOTO FORMAT -->
+          <!-- FORMAT CONTROL -->
 
           <div class="booth-options">
 
             <label for="photoFormat">
-              02 / PHOTO FORMAT
+
+              <span>02</span>
+
+              PHOTO FORMAT
+
             </label>
+
 
             <select id="photoFormat">
 
@@ -253,7 +409,7 @@
               </option>
 
               <option value="strip">
-                Photo Strip (3 Photos)
+                Photo Strip — 3 Frames
               </option>
 
             </select>
@@ -262,13 +418,18 @@
 
 
 
-          <!-- PHOTO SIZE -->
+          <!-- SIZE CONTROL -->
 
           <div class="booth-options">
 
             <label for="photoSize">
-              03 / PHOTO SIZE
+
+              <span>03</span>
+
+              PRINT DIMENSION
+
             </label>
+
 
             <select id="photoSize">
 
@@ -286,6 +447,7 @@
 
             </select>
 
+
             <p id="sizeNote">
               Choose your preferred photo print size.
             </p>
@@ -296,17 +458,38 @@
 
           <!-- CAPTURE BUTTON -->
 
-          <button id="captureBtn" class="primary-btn" disabled>
-            TAKE PHOTO <span>✳</span>
-          </button>
+          <div class="camera-actions">
+
+            <button
+              id="captureBtn"
+              class="primary-btn"
+              disabled>
+
+              CAPTURE FRAME
+
+              <span>↗</span>
+
+            </button>
 
 
-          <!-- RETAKE BUTTON -->
+            <button
+              id="retakeBtn"
+              class="secondary-btn hidden">
 
-          <button id="retakeBtn" class="secondary-btn hidden">
-            ↺ TAKE AGAIN
-          </button>
+              ↺ RETAKE PHOTO
 
+            </button>
+
+          </div>
+
+
+          <div class="control-footer">
+
+            <span>KLK / CAMERA SYSTEM</span>
+
+            <span>V. 01.26</span>
+
+          </div>
 
         </div>
 
@@ -314,42 +497,72 @@
 
 
 
-      <!-- =========================
-           RESULT SECTION
-      ========================== -->
+      <!-- ==================================
+           PHOTO RESULT SECTION
+      =================================== -->
 
-      <div id="resultSection" class="result-section hidden">
+      <div
+        id="resultSection"
+        class="result-section hidden">
 
+
+        <!-- RESULT HEADING -->
 
         <div class="result-heading">
 
           <span class="eyebrow">
-            YOUR PHOTO IS READY
+            KLIKEBOOTH / YOUR FINAL FRAME
           </span>
 
+
           <h2>
-            Looking <span>good!</span>
+            FRAME <span>COMPLETE.</span>
           </h2>
 
+
           <p>
-            One little click, one lovely memory.
+            Your moment has been captured.
+            Now make sure you keep it.
           </p>
 
         </div>
 
 
 
+        <!-- RESULT WORKSPACE -->
+
         <div class="result-card">
 
 
           <!-- PHOTO PREVIEW -->
 
-          <div class="result-photo">
+          <div class="result-photo-container">
 
-            <img
-              id="photoResult"
-              alt="Hasil foto photobooth"
-            >
+            <div class="result-photo-header">
+
+              <span>FINAL OUTPUT</span>
+
+              <span>001 / JPG</span>
+
+            </div>
+
+
+            <div class="result-photo">
+
+              <img
+                id="photoResult"
+                alt="KlikeBooth captured photo">
+
+            </div>
+
+
+            <div class="result-photo-footer">
+
+              <span>KLIKEBOOTH</span>
+
+              <span>PEEK A BOOTH / 2026</span>
+
+            </div>
 
           </div>
 
@@ -359,8 +572,30 @@
 
           <div class="result-info">
 
+
+            <span class="side-number">
+              YOUR PHOTO / 001
+            </span>
+
+
+            <h3>
+              KEEP THE<br>
+              <span>MOMENT.</span>
+            </h3>
+
+
+            <p class="result-description">
+              Your photo is ready.
+              Download your frame or send it
+              directly to your email.
+            </p>
+
+
+
+            <!-- EMAIL INPUT -->
+
             <label for="email">
-              WHERE SHOULD WE SEND IT?
+              EMAIL ADDRESS
             </label>
 
 
@@ -372,25 +607,50 @@
             >
 
 
+
+            <!-- SEND PHOTO -->
+
             <button
               id="sendBtn"
               class="primary-btn"
-              disabled
-            >
-              SEND MY PHOTO <span>↗</span>
+              disabled>
+
+              SEND TO EMAIL
+
+              <span>↗</span>
+
             </button>
 
+
+
+            <!-- DOWNLOAD PHOTO -->
 
             <button
               id="downloadBtn"
               class="secondary-btn"
-              disabled
-            >
-              ↓ DOWNLOAD MY PHOTO
+              disabled>
+
+              ↓ DOWNLOAD PHOTO
+
             </button>
 
 
-            <p id="sendStatus"></p>
+
+            <!-- SEND STATUS -->
+
+            <p
+              id="sendStatus"
+              aria-live="polite">
+            </p>
+
+
+            <div class="result-note">
+
+              <span>HIGH QUALITY OUTPUT</span>
+
+              <span>JPEG / DIGITAL FORMAT</span>
+
+            </div>
 
           </div>
 
@@ -404,7 +664,9 @@
 
 
 
-  <!-- FOOTER -->
+  <!-- ==================================
+       FOOTER
+  =================================== -->
 
   <footer class="site-footer">
 
@@ -416,9 +678,12 @@
 
 
 
-  <!-- JAVASCRIPT -->
+  <!-- ==================================
+       JAVASCRIPT
+  =================================== -->
 
   <script src="script.js"></script>
 
 </body>
+
 </html>
