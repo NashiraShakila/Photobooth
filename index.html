@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>KlikeBooth — peek a booth</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar">
+
+    <a href="#" class="logo">
+      Klike<span>Booth.</span>
+    </a>
+
+    <p class="nav-tagline">
+      PEEK A BOOTH <span>✳</span>
+    </p>
+
+  </nav>
+
+
+  <main>
+
+    <!-- =========================
+         HOME PAGE
+    ========================== -->
+
+    <section id="homePage" class="hero-section">
+
+      <div class="hero-top">
+        <span class="eyebrow">YOUR LITTLE PHOTO CORNER</span>
+        <span class="edition">NO. 001 / EST. 2026</span>
+      </div>
+
+
+      <div class="hero-content">
+
+        <div class="hero-copy">
+
+          <p class="small-intro">
+            A LITTLE CLICK, A LOT OF MEMORIES.
+          </p>
+
+          <h1>
+            Keep your<br>
+            moments <span>kliked.</span>
+          </h1>
+
+          <p class="hero-description">
+            A little space to capture your favorite moments.
+            Strike a pose, take a picture, and keep the memory.
+          </p>
+
+          <button id="startBtn" class="primary-btn">
+            LET'S TAKE A PIC <span>↗</span>
+          </button>
+
+          <p class="hero-note">
+            NO FILTER NEEDED. JUST BE YOU.
+          </p>
+
+        </div>
+
+
+        <!-- HERO ART -->
+
+        <div class="hero-art">
+
+          <div class="art-sticker sticker-top">
+            SAY CHEESE!
+          </div>
+
+          <div class="photo-card photo-back">
+
+            <div class="photo-placeholder blue-placeholder">
+              <span>✳</span>
+            </div>
+
+          </div>
+
+
+          <div class="photo-card photo-front">
+
+            <div class="photo-placeholder cream-placeholder">
+
+              <span class="smile-face">☺</span>
+
+              <span class="photo-caption">
+                A MOMENT TO KEEP
+              </span>
+
+            </div>
+
+          </div>
+
+
+          <div class="art-sticker sticker-bottom">
+            CLICK! ✦
+          </div>
+
+          <div class="art-star">✳</div>
+
+        </div>
+
+      </div>
+
+
+      <div class="hero-footer">
+
+        <span>CAPTURE THE LITTLE THINGS.</span>
+
+        <span>MADE FOR YOUR MOMENTS — ♥</span>
+
+      </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         CAMERA PAGE
+    ========================== -->
+
+    <section id="boothPage" class="booth-section hidden">
+
+
+      <div class="section-heading">
+
+        <span class="eyebrow">
+          KLIKEBOOTH / CAMERA ROOM
+        </span>
+
+        <h2>
+          Ready, <span>set, smile!</span>
+        </h2>
+
+        <p>
+          Find your angle and let the camera do its thing.
+        </p>
+
+      </div>
+
+
+
+      <!-- CAMERA LAYOUT -->
+
+      <div class="camera-layout">
+
+
+        <!-- CAMERA FRAME -->
+
+        <div class="camera-frame">
+
+          <div class="camera-label">
+
+            <span>● LIVE CAMERA</span>
+
+            <span>01 / YOUR SHOT</span>
+
+          </div>
+
+
+          <video id="video" autoplay playsinline muted></video>
+
+          <canvas id="canvas" class="hidden"></canvas>
+
+          <div id="countdown" class="countdown"></div>
+
+        </div>
+
+
+
+        <!-- CAMERA OPTIONS -->
+
+        <div class="camera-side">
+
+          <span class="side-number">01</span>
+
+          <h3>
+            Make it<br>
+            <em>memorable.</em>
+          </h3>
+
+          <p id="cameraStatus">
+            Your camera is waiting. Get comfortable and show us your best smile.
+          </p>
+
+
+
+          <!-- FILTER OPTIONS -->
+
+          <div class="booth-options">
+
+            <label>01 / CHOOSE YOUR FILTER</label>
+
+            <div class="filter-options">
+
+              <button class="filter-btn active" data-filter="none">
+                Original
+              </button>
+
+              <button class="filter-btn" data-filter="vintage">
+                Vintage
+              </button>
+
+              <button class="filter-btn" data-filter="warm">
+                Warm
+              </button>
+
+              <button class="filter-btn" data-filter="mono">
+                B&W
+              </button>
+
+              <button class="filter-btn" data-filter="soft">
+                Soft
+              </button>
+
+              <button class="filter-btn" data-filter="cool">
+                Cool
+              </button>
+
+            </div>
+
+          </div>
+
+
+
+          <!-- PHOTO FORMAT -->
+
+          <div class="booth-options">
+
+            <label for="photoFormat">
+              02 / PHOTO FORMAT
+            </label>
+
+            <select id="photoFormat">
+
+              <option value="single">
+                Single Photo
+              </option>
+
+              <option value="strip">
+                Photo Strip (3 Photos)
+              </option>
+
+            </select>
+
+          </div>
+
+
+
+          <!-- PHOTO SIZE -->
+
+          <div class="booth-options">
+
+            <label for="photoSize">
+              03 / PHOTO SIZE
+            </label>
+
+            <select id="photoSize">
+
+              <option value="4x6">
+                4 × 6 inch
+              </option>
+
+              <option value="4x4">
+                4 × 4 inch
+              </option>
+
+              <option value="2x6">
+                2 × 6 inch
+              </option>
+
+            </select>
+
+            <p id="sizeNote">
+              Choose your preferred photo print size.
+            </p>
+
+          </div>
+
+
+
+          <!-- CAPTURE BUTTON -->
+
+          <button id="captureBtn" class="primary-btn" disabled>
+            TAKE PHOTO <span>✳</span>
+          </button>
+
+
+          <!-- RETAKE BUTTON -->
+
+          <button id="retakeBtn" class="secondary-btn hidden">
+            ↺ TAKE AGAIN
+          </button>
+
+
+        </div>
+
+      </div>
+
+
+
+      <!-- =========================
+           RESULT SECTION
+      ========================== -->
+
+      <div id="resultSection" class="result-section hidden">
+
+
+        <div class="result-heading">
+
+          <span class="eyebrow">
+            YOUR PHOTO IS READY
+          </span>
+
+          <h2>
+            Looking <span>good!</span>
+          </h2>
+
+          <p>
+            One little click, one lovely memory.
+          </p>
+
+        </div>
+
+
+
+        <div class="result-card">
+
+
+          <!-- PHOTO PREVIEW -->
+
+          <div class="result-photo">
+
+            <img
+              id="photoResult"
+              alt="Hasil foto photobooth"
+            >
+
+          </div>
+
+
+
+          <!-- RESULT INFORMATION -->
+
+          <div class="result-info">
+
+            <label for="email">
+              WHERE SHOULD WE SEND IT?
+            </label>
+
+
+            <input
+              type="email"
+              id="email"
+              placeholder="Enter your email address"
+              required
+            >
+
+
+            <button
+              id="sendBtn"
+              class="primary-btn"
+              disabled
+            >
+              SEND MY PHOTO <span>↗</span>
+            </button>
+
+
+            <button
+              id="downloadBtn"
+              class="secondary-btn"
+              disabled
+            >
+              ↓ DOWNLOAD MY PHOTO
+            </button>
+
+
+            <p id="sendStatus"></p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- FOOTER -->
+
+  <footer class="site-footer">
+
+    <span>KLIKEBOOTH © 2026</span>
+
+    <span>PEEK A BOOTH — KEEP A MEMORY.</span>
+
+  </footer>
+
+
+
+  <!-- JAVASCRIPT -->
+
+  <script src="script.js"></script>
+
+</body>
+</html>
