@@ -1,87 +1,40 @@
 
 <!DOCTYPE html>
 <html lang="id">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <meta name="theme-color" content="#092328">
-
-  <meta name="description" content="KlikeBooth — A modern photo experience. Capture your moments and keep them forever.">
-
+  <meta name="theme-color" content="#EFEABB">
   <title>KlikeBooth — Peek a Booth</title>
-
-  <!-- GOOGLE FONTS -->
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-  <!-- CSS -->
+  <link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,500;0,6..96,600;0,6..96,700;1,6..96,500;1,6..96,600;1,6..96,700&family=DM+Sans:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
-
 </head>
 
 <body>
 
-  <!-- ==================================
-       NAVIGATION
-  =================================== -->
-
   <nav class="navbar">
-
-    <a href="#" class="logo">
-      KLIKE<span>BOOTH.</span>
-    </a>
-
-    <p class="nav-tagline">
-      PEEK A BOOTH
-      <span> / </span>
-      EST. 2026
-    </p>
-
+    <a href="#" class="logo">KLIKE<span>BOOTH.</span></a>
+    <p class="nav-tagline">PEEK A BOOTH <span>/</span> EST. 2026</p>
   </nav>
-
 
   <main>
 
-    <!-- ==================================
-         HOME / HERO SECTION
-    =================================== -->
-
+    <!-- HOME PAGE -->
     <section id="homePage" class="hero-section">
 
-      <!-- TOP INFORMATION -->
-
       <div class="hero-top">
-
-        <span class="eyebrow">
-          INDEPENDENT PHOTO EXPERIENCE
-        </span>
-
-        <span class="edition">
-          NO. 001 / 2026
-        </span>
-
+        <span class="eyebrow">INDEPENDENT PHOTO EXPERIENCE</span>
+        <span class="edition">NO. 001 / 2026</span>
       </div>
-
-
-      <!-- HERO CONTENT -->
 
       <div class="hero-content">
 
-
-        <!-- LEFT CONTENT -->
-
         <div class="hero-copy">
-
-          <p class="small-intro">
-            YOUR MOMENT. YOUR FRAME.
-          </p>
-
+          <p class="small-intro">YOUR MOMENT. YOUR FRAME.</p>
 
           <h1>
             CAPTURE<br>
@@ -89,32 +42,17 @@
             KEEP IT.
           </h1>
 
-
           <p class="hero-description">
-            Not just another picture.
-            A moment worth keeping, captured
-            in your own way.
+            Not just another picture. A moment worth keeping,
+            captured in your own way.
           </p>
 
-
-          <button id="startBtn" class="primary-btn">
-
-            ENTER THE BOOTH
-
-            <span>↗</span>
-
+          <button id="startBtn" class="primary-btn" type="button">
+            ENTER THE BOOTH <span>↗</span>
           </button>
 
-
-          <p class="hero-note">
-            FRAME YOUR MOMENT / MAKE IT LAST.
-          </p>
-
+          <p class="hero-note">FRAME YOUR MOMENT / MAKE IT LAST.</p>
         </div>
-
-
-
-        <!-- RIGHT VISUAL -->
 
         <div class="hero-art">
 
@@ -123,186 +61,188 @@
             <span>001 — 026</span>
           </div>
 
-
           <div class="photo-card photo-back">
-
             <div class="photo-placeholder blue-placeholder">
-
               <span>01</span>
-
               <div class="photo-overlay-text">
                 THE ART OF<br>BEING PRESENT.
               </div>
-
+              <span class="photo-card-mark">KLK / 001</span>
             </div>
-
           </div>
 
-
-
           <div class="photo-card photo-front">
-
             <div class="photo-placeholder cream-placeholder">
-
               <div class="photo-graphic">
                 <span>KB.</span>
               </div>
-
               <span class="photo-caption">
                 KLIKEBOOTH / ORIGINAL FRAME
               </span>
-
             </div>
-
           </div>
 
+          <div class="art-sticker sticker-top">
+            <span>KEEP<br>IT.</span>
+          </div>
+
+          <div class="art-sticker sticker-bottom">
+            <span>NO. 001 — YOUR FRAME</span>
+          </div>
+
+          <span class="art-star star-one">✳</span>
+          <span class="art-star star-two">✳</span>
 
           <div class="art-label">
-
             <span>ANALOG FEEL.</span>
-
             <span>DIGITAL MEMORY.</span>
-
           </div>
 
         </div>
-
       </div>
 
-
-
-      <!-- HERO BOTTOM INFORMATION -->
-
       <div class="hero-footer">
-
         <span>01 — CAPTURE</span>
-
         <span>02 — CUSTOMIZE</span>
-
         <span>03 — KEEP FOREVER</span>
-
         <span>KLIKEBOOTH © 2026</span>
-
       </div>
 
     </section>
 
 
-
-    <!-- ==================================
-         PHOTOBOOTH SECTION
-    =================================== -->
-
+    <!-- BOOTH PAGE -->
     <section id="boothPage" class="booth-section hidden">
-
-
-      <!-- SECTION HEADING -->
 
       <div class="section-heading">
 
         <div class="section-heading-top">
-
-          <span class="eyebrow">
-            KLIKEBOOTH / CAMERA ROOM
-          </span>
-
-          <span class="edition">
-            SESSION NO. 001
-          </span>
-
+          <span class="eyebrow">KLIKEBOOTH / CAMERA ROOM</span>
+          <span class="edition">SESSION NO. 001</span>
         </div>
-
 
         <h2>
           YOUR MOMENT.<br>
           <span>YOUR FRAME.</span>
         </h2>
 
-
         <p>
-          Set your frame, choose your look, and make it yours.
+          Try your look, arrange your layout, and make it yours.
         </p>
 
       </div>
 
 
-
-      <!-- CAMERA WORKSPACE -->
-
       <div class="camera-layout">
 
-
         <!-- CAMERA PANEL -->
-
         <div class="camera-panel">
 
           <div class="camera-panel-header">
-
             <span>LIVE PREVIEW</span>
 
             <span class="camera-indicator">
               <span class="live-dot"></span>
               CAMERA 01 / ACTIVE
             </span>
+          </div>
+
+          <div class="camera-frame" id="cameraFrame">
+
+            <div class="camera-label">
+              <span>KLK / 001</span>
+              <span id="previewModeLabel">LIVE / ORIGINAL</span>
+            </div>
+
+            <video id="video" autoplay playsinline muted></video>
+
+            <div
+              class="live-frame-overlay frame-editorial"
+              id="liveFrameOverlay"
+            >
+              <span class="overlay-top">KLIKEBOOTH / 2026</span>
+              <span class="overlay-bottom">YOUR MOMENT.</span>
+            </div>
+
+            <div id="countdown" class="countdown"></div>
+
+            <div id="cameraHint" class="camera-hint">
+              YOUR PREVIEW WILL APPEAR HERE
+            </div>
 
           </div>
 
 
-          <div class="camera-frame">
+          <!-- CAMERA CAPTURE BUTTONS -->
+          <div class="camera-capture-actions">
 
-            <div class="camera-label">
+            <button
+              type="button"
+              id="captureBtn"
+              class="primary-btn"
+              disabled
+            >
+              CAPTURE SESSION <span>↗</span>
+            </button>
 
-              <span>KLK / 001</span>
+            <button
+              type="button"
+              id="retakeBtn"
+              class="secondary-btn hidden"
+            >
+              ↺ RETAKE PHOTOS
+            </button>
 
-              <span>PHOTO MODE</span>
-
-            </div>
-
-
-            <video
-              id="video"
-              autoplay
-              playsinline
-              muted>
-            </video>
-
-
-            <canvas
-              id="canvas"
-              class="hidden">
-            </canvas>
-
-
-            <div
-              id="countdown"
-              class="countdown">
-            </div>
+            <p class="capture-caption">
+              READY WHEN YOU ARE — MAKE YOUR MOMENT KLIK!
+            </p>
 
           </div>
 
 
           <div class="camera-panel-footer">
-
             <span>LIVE CAPTURE SYSTEM</span>
+            <span>FRONT CAMERA / MIRRORED</span>
+          </div>
 
-            <span>4 : 3 / STANDARD VIEW</span>
+
+          <!-- DESIGN PREVIEW -->
+          <div class="design-preview-panel">
+
+            <div class="design-preview-heading">
+              <span>OUTPUT STUDY</span>
+              <span id="designPreviewName">
+                VERTICAL / EDITORIAL
+              </span>
+            </div>
+
+            <div
+              class="mini-output"
+              id="miniOutput"
+              data-layout="vertical"
+              data-frame="editorial"
+            >
+              <div class="mini-photo mini-photo-one"></div>
+              <div class="mini-photo mini-photo-two"></div>
+              <div class="mini-photo mini-photo-three"></div>
+              <span class="mini-output-label">KLIKEBOOTH</span>
+            </div>
+
+            <p class="preview-caption">
+              A small guide to your selected composition.
+              Your actual photos will replace these placeholders.
+            </p>
 
           </div>
 
         </div>
 
 
-
-        <!-- CAMERA CONTROL PANEL -->
-
-        <div class="camera-side">
-
+        <!-- CONTROL PANEL -->
+        <aside class="camera-side">
 
           <div class="control-heading">
-
-            <span class="side-number">
-              CONTROL PANEL / 01
-            </span>
+            <span class="side-number">CONTROL PANEL / 01</span>
 
             <h3>
               MAKE IT<br>
@@ -310,380 +250,333 @@
             </h3>
 
             <p id="cameraStatus">
-              Your camera is waiting.
-              Get ready to capture your moment.
+              Connecting to your camera...
+            </p>
+          </div>
+
+
+          <!-- FILTERS -->
+          <div class="booth-options">
+
+            <label>
+              <span>01</span> IMAGE TREATMENT
+            </label>
+
+            <p class="option-description">
+              Choose a look. The effect appears instantly
+              in your camera preview.
+            </p>
+
+            <div class="filter-options" id="filterOptions">
+
+              <button type="button" class="filter-btn active" data-filter="original">Original</button>
+              <button type="button" class="filter-btn" data-filter="y2k">Y2K</button>
+              <button type="button" class="filter-btn" data-filter="beautify">Beautify</button>
+              <button type="button" class="filter-btn" data-filter="retro">Retro</button>
+              <button type="button" class="filter-btn" data-filter="dramatic">Dramatic</button>
+              <button type="button" class="filter-btn" data-filter="dreamy">Dreamy</button>
+              <button type="button" class="filter-btn" data-filter="noir">Noir</button>
+              <button type="button" class="filter-btn" data-filter="disposable">Disposable</button>
+              <button type="button" class="filter-btn" data-filter="cocoa">Cocoa</button>
+              <button type="button" class="filter-btn" data-filter="peachy">Peachy</button>
+              <button type="button" class="filter-btn" data-filter="coolblue">Cool Blue</button>
+              <button type="button" class="filter-btn" data-filter="flash">Flash</button>
+
+            </div>
+
+            <p class="filter-note">
+              Beautify uses a soft glow and gentle contrast adjustment;
+              it does not reshape or automatically retouch facial features.
             </p>
 
           </div>
 
 
-
-          <!-- FILTER CONTROL -->
-
+          <!-- PHOTO LAYOUT -->
           <div class="booth-options">
 
-            <label>
-              <span>01</span>
-              IMAGE TREATMENT
+            <label for="photoLayout">
+              <span>02</span> PHOTO LAYOUT
             </label>
 
+            <select id="photoLayout">
+              <option value="single">Single — 1 photo</option>
+              <option value="vertical" selected>Vertical Strip</option>
+              <option value="horizontal">Horizontal Strip</option>
+              <option value="grid">Grid Collage</option>
+              <option value="asymmetric">Asymmetric</option>
+              <option value="freeform">Freeform</option>
+            </select>
 
-            <div class="filter-options">
+            <p id="layoutNote" class="option-note">
+              Three photos arranged vertically.
+            </p>
+
+          </div>
+
+
+          <!-- SHOT COUNT -->
+          <div class="booth-options">
+
+            <label for="shotCount">
+              <span>03</span> NUMBER OF SHOTS
+            </label>
+
+            <select id="shotCount">
+              <option value="1">1 photo</option>
+              <option value="2">2 photos</option>
+              <option value="3" selected>3 photos</option>
+              <option value="4">4 photos</option>
+              <option value="5">5 photos</option>
+              <option value="6">6 photos</option>
+            </select>
+
+            <p class="option-note">
+              The camera takes each photo one by one with a countdown.
+            </p>
+
+          </div>
+
+
+          <!-- FRAME DESIGN -->
+          <div class="booth-options frame-section">
+
+            <div class="frame-section-heading">
+              <label>
+                <span>04</span> FRAME DESIGN
+              </label>
+
+              <p class="option-description">
+                Pick a print style to give your photos a little personality.
+              </p>
+            </div>
+
+            <!-- Hidden select keeps the selected value available to JS -->
+            <select id="frameStyle" class="frame-select-hidden" aria-hidden="true" tabindex="-1">
+              <option value="editorial" selected>Editorial Type</option>
+              <option value="retro">Retro Pattern</option>
+              <option value="check">Graphic Check</option>
+              <option value="bloom">Organic Bloom</option>
+              <option value="minimal">Minimal Print</option>
+            </select>
+
+            <div class="frame-options" id="frameOptions">
 
               <button
-                class="filter-btn active"
-                data-filter="none">
-
-                Original
-
+                type="button"
+                class="frame-choice active"
+                data-frame-choice="editorial"
+                aria-pressed="true"
+              >
+                <span class="frame-thumb frame-thumb-editorial">
+                  <span class="thumb-photo"></span>
+                  <span class="thumb-caption">KLK / 001</span>
+                </span>
+                <span class="frame-choice-name">Editorial Type</span>
+                <span class="frame-choice-detail">01 / TYPE</span>
               </button>
 
-
               <button
-                class="filter-btn"
-                data-filter="vintage">
-
-                Vintage
-
+                type="button"
+                class="frame-choice"
+                data-frame-choice="retro"
+                aria-pressed="false"
+              >
+                <span class="frame-thumb frame-thumb-retro">
+                  <span class="thumb-photo"></span>
+                  <span class="thumb-caption">GOOD TIMES</span>
+                </span>
+                <span class="frame-choice-name">Retro Pattern</span>
+                <span class="frame-choice-detail">02 / RETRO</span>
               </button>
 
-
               <button
-                class="filter-btn"
-                data-filter="warm">
-
-                Warm
-
+                type="button"
+                class="frame-choice"
+                data-frame-choice="check"
+                aria-pressed="false"
+              >
+                <span class="frame-thumb frame-thumb-check">
+                  <span class="thumb-photo"></span>
+                  <span class="thumb-caption">KLIKEBOOTH</span>
+                </span>
+                <span class="frame-choice-name">Graphic Check</span>
+                <span class="frame-choice-detail">03 / CHECK</span>
               </button>
 
-
               <button
-                class="filter-btn"
-                data-filter="mono">
-
-                B&W
-
+                type="button"
+                class="frame-choice"
+                data-frame-choice="bloom"
+                aria-pressed="false"
+              >
+                <span class="frame-thumb frame-thumb-bloom">
+                  <span class="thumb-photo"></span>
+                  <span class="thumb-caption">IN BLOOM</span>
+                </span>
+                <span class="frame-choice-name">Organic Bloom</span>
+                <span class="frame-choice-detail">04 / BLOOM</span>
               </button>
 
-
               <button
-                class="filter-btn"
-                data-filter="soft">
-
-                Soft
-
-              </button>
-
-
-              <button
-                class="filter-btn"
-                data-filter="cool">
-
-                Cool
-
+                type="button"
+                class="frame-choice"
+                data-frame-choice="minimal"
+                aria-pressed="false"
+              >
+                <span class="frame-thumb frame-thumb-minimal">
+                  <span class="thumb-photo"></span>
+                  <span class="thumb-caption">MEMORY NO. 01</span>
+                </span>
+                <span class="frame-choice-name">Minimal Print</span>
+                <span class="frame-choice-detail">05 / CLEAN</span>
               </button>
 
             </div>
 
-          </div>
-
-
-
-          <!-- FORMAT CONTROL -->
-
-          <div class="booth-options">
-
-            <label for="photoFormat">
-
-              <span>02</span>
-
-              PHOTO FORMAT
-
-            </label>
-
-
-            <select id="photoFormat">
-
-              <option value="single">
-                Single Photo
-              </option>
-
-              <option value="strip">
-                Photo Strip — 3 Frames
-              </option>
-
-            </select>
-
-          </div>
-
-
-
-          <!-- SIZE CONTROL -->
-
-          <div class="booth-options">
-
-            <label for="photoSize">
-
-              <span>03</span>
-
-              PRINT DIMENSION
-
-            </label>
-
-
-            <select id="photoSize">
-
-              <option value="4x6">
-                4 × 6 inch
-              </option>
-
-              <option value="4x4">
-                4 × 4 inch
-              </option>
-
-              <option value="2x6">
-                2 × 6 inch
-              </option>
-
-            </select>
-
-
-            <p id="sizeNote">
-              Choose your preferred photo print size.
+            <p id="frameNote" class="option-note">
+              A clean editorial frame with subtle typography.
             </p>
 
           </div>
 
 
+          <!-- PHOTO SIZE -->
+          <div class="booth-options">
 
-          <!-- CAPTURE BUTTON -->
+            <label for="photoSize">
+              <span>05</span> PRINT DIMENSION
+            </label>
 
-          <div class="camera-actions">
+            <select id="photoSize">
+              <option value="4x6" selected>4 × 6 inch</option>
+              <option value="4x4">4 × 4 inch</option>
+              <option value="2x6">2 × 6 inch</option>
+            </select>
 
-            <button
-              id="captureBtn"
-              class="primary-btn"
-              disabled>
-
-              CAPTURE FRAME
-
-              <span>↗</span>
-
-            </button>
-
-
-            <button
-              id="retakeBtn"
-              class="secondary-btn hidden">
-
-              ↺ RETAKE PHOTO
-
-            </button>
+            <p id="sizeNote" class="option-note">
+              Used as the output proportion for single photos
+              and vertical layouts.
+            </p>
 
           </div>
 
 
           <div class="control-footer">
-
             <span>KLK / CAMERA SYSTEM</span>
-
-            <span>V. 01.26</span>
-
+            <span>V. 02.26</span>
           </div>
 
-        </div>
+        </aside>
 
       </div>
 
 
-
-      <!-- ==================================
-           PHOTO RESULT SECTION
-      =================================== -->
-
-      <div
-        id="resultSection"
-        class="result-section hidden">
-
-
-        <!-- RESULT HEADING -->
+      <!-- RESULT SECTION -->
+      <section id="resultSection" class="result-section hidden">
 
         <div class="result-heading">
-
-          <span class="eyebrow">
-            KLIKEBOOTH / YOUR FINAL FRAME
-          </span>
-
+          <span class="eyebrow">KLIKEBOOTH / YOUR FINAL FRAME</span>
 
           <h2>
             FRAME <span>COMPLETE.</span>
           </h2>
 
-
           <p>
             Your moment has been captured.
             Now make sure you keep it.
           </p>
-
         </div>
 
 
-
-        <!-- RESULT WORKSPACE -->
-
         <div class="result-card">
-
-
-          <!-- PHOTO PREVIEW -->
 
           <div class="result-photo-container">
 
             <div class="result-photo-header">
-
               <span>FINAL OUTPUT</span>
-
               <span>001 / JPG</span>
-
             </div>
-
 
             <div class="result-photo">
-
               <img
                 id="photoResult"
-                alt="KlikeBooth captured photo">
-
+                alt="KlikeBooth captured photo"
+              >
             </div>
 
-
             <div class="result-photo-footer">
-
               <span>KLIKEBOOTH</span>
-
               <span>PEEK A BOOTH / 2026</span>
-
             </div>
 
           </div>
 
 
-
-          <!-- RESULT INFORMATION -->
-
           <div class="result-info">
 
-
-            <span class="side-number">
-              YOUR PHOTO / 001
-            </span>
-
+            <span class="side-number">YOUR PHOTO / 001</span>
 
             <h3>
               KEEP THE<br>
               <span>MOMENT.</span>
             </h3>
 
-
             <p class="result-description">
-              Your photo is ready.
-              Download your frame or send it
-              directly to your email.
+              Your photo is ready. Download your frame
+              or send it directly to your email.
             </p>
 
-
-
-            <!-- EMAIL INPUT -->
-
-            <label for="email">
-              EMAIL ADDRESS
-            </label>
-
+            <label for="email">EMAIL ADDRESS</label>
 
             <input
               type="email"
               id="email"
               placeholder="Enter your email address"
-              required
             >
 
-
-
-            <!-- SEND PHOTO -->
-
             <button
+              type="button"
               id="sendBtn"
               class="primary-btn"
-              disabled>
-
-              SEND TO EMAIL
-
-              <span>↗</span>
-
+              disabled
+            >
+              SEND TO EMAIL <span>↗</span>
             </button>
-
-
-
-            <!-- DOWNLOAD PHOTO -->
 
             <button
+              type="button"
               id="downloadBtn"
               class="secondary-btn"
-              disabled>
-
+              disabled
+            >
               ↓ DOWNLOAD PHOTO
-
             </button>
 
-
-
-            <!-- SEND STATUS -->
-
-            <p
-              id="sendStatus"
-              aria-live="polite">
-            </p>
-
+            <p id="sendStatus" aria-live="polite"></p>
 
             <div class="result-note">
-
               <span>HIGH QUALITY OUTPUT</span>
-
               <span>JPEG / DIGITAL FORMAT</span>
-
             </div>
 
           </div>
 
         </div>
 
-      </div>
+      </section>
 
     </section>
 
   </main>
 
 
-
-  <!-- ==================================
-       FOOTER
-  =================================== -->
-
   <footer class="site-footer">
-
     <span>KLIKEBOOTH © 2026</span>
-
     <span>PEEK A BOOTH — KEEP A MEMORY.</span>
-
   </footer>
-
-
-
-  <!-- ==================================
-       JAVASCRIPT
-  =================================== -->
 
   <script src="script.js"></script>
 
 </body>
-
 </html>

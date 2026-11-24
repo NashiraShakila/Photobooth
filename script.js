@@ -1,544 +1,1538 @@
 
-// ======================================
-// KLIKEBOOTH — PEEK A BOOTH
-// MODERN RETRO EDITORIAL
-// ======================================
+/* ==========================================
+   KLIKEBOOTH
+   PHOTOBOOTH SYSTEM / 2026
+========================================== */
 
-const homePage = document.getElementById("homePage");
-const boothPage = document.getElementById("boothPage");
+document.addEventListener("DOMContentLoaded", () => {
 
-const startBtn = document.getElementById("startBtn");
+  // ========================================
+  // ELEMENTS
+  // ========================================
 
-const video = document.getElementById("video");
-const canvas = document.getElementById("canvas");
+  const homePage = document.getElementById("homePage");
+  const boothPage = document.getElementById("boothPage");
 
-const captureBtn = document.getElementById("captureBtn");
-const retakeBtn = document.getElementById("retakeBtn");
-const downloadBtn = document.getElementById("downloadBtn");
+  const startBtn = document.getElementById("startBtn");
 
-const countdown = document.getElementById("countdown");
-const cameraStatus = document.getElementById("cameraStatus");
+  const video = document.getElementById("video");
+  const cameraFrame = document.getElementById("cameraFrame");
+  const cameraHint = document.getElementById("cameraHint");
 
-const resultSection = document.getElementById("resultSection");
-const photoResult = document.getElementById("photoResult");
+  const countdown = document.getElementById("countdown");
 
-const emailInput = document.getElementById("email");
-const sendBtn = document.getElementById("sendBtn");
-const sendStatus = document.getElementById("sendStatus");
+  const captureBtn = document.getElementById("captureBtn");
+  const retakeBtn = document.getElementById("retakeBtn");
 
-const filterButtons = document.querySelectorAll(".filter-btn");
+  const cameraStatusElements = document.querySelectorAll("#cameraStatus");
 
-const photoFormat = document.getElementById("photoFormat");
-const photoSize = document.getElementById("photoSize");
-const sizeNote = document.getElementById("sizeNote");
+  const resultSection = document.getElementById("resultSection");
+  const photoResult = document.getElementById("photoResult");
 
-let cameraStream = null;
-let photoData = null;
+  const emailInput = document.getElementById("email");
+  const sendBtn = document.getElementById("sendBtn");
+  const downloadBtn = document.getElementById("downloadBtn");
+  const sendStatus = document.getElementById("sendStatus");
 
-let selectedFilter = "none";
-let capturedPhotos = [];
+  const filterButtons = document.querySelectorAll(".filter-btn");
 
-let isCapturing = false;
-let isSending = false;
+  const photoLayout = document.getElementById("photoLayout");
+  const shotCount = document.getElementById("shotCount");
+  const frameStyle = document.getElementById("frameStyle");
+  const photoSize = document.getElementById("photoSize");
 
+  const frameChoices = document.querySelectorAll(".frame-choice");
 
-// ======================================
-// DESIGN SYSTEM
-// ======================================
+  const layoutNote = document.getElementById("layoutNote");
+  const frameNote = document.getElementById("frameNote");
+  const sizeNote = document.getElementById("sizeNote");
 
-const COLORS = {
-    deepTeal: "#092328",
-    forestTeal: "#12544F",
-    warmYellow: "#EBE3A7",
-    burntOrange: "#E37434",
-    offWhite: "#F7F3DC"
-};
+  const miniOutput = document.getElementById("miniOutput");
+  const designPreviewName = document.getElementById("designPreviewName");
 
-
-// ======================================
-// FILTER PRESETS
-// ======================================
-
-const filters = {
-
-    none: "none",
-
-    vintage: "sepia(0.55) contrast(1.1) saturate(0.85)",
-
-    warm: "sepia(0.25) saturate(1.35) brightness(1.05)",
-
-    mono: "grayscale(1) contrast(1.15)",
-
-    soft: "brightness(1.12) saturate(0.75) contrast(0.9)",
-
-    cool: "saturate(0.85) hue-rotate(15deg) brightness(1.05)"
-
-};
+  const liveFrameOverlay = document.getElementById("liveFrameOverlay");
+  const previewModeLabel = document.getElementById("previewModeLabel");
 
 
-// ======================================
-// MEMULAI PHOTOBOOTH
-// ======================================
+  // ========================================
+  // CONFIGURATION
+  // ========================================
 
-startBtn.addEventListener("click", async function () {
+  const WEBHOOK_URL =
+    "https://doozy-audacious-cheer.ngrok-free.dev/webhook-test/klikebooth";
+
+  const COLORS = {
+    butter: "#EFEABB",
+    peach: "#FFEAD3",
+    teal: "#005461",
+    burgundy: "#4B1426",
+    red: "#9B0F06",
+    indigo: "#121358"
+  };
+
+
+  // ========================================
+  // FILTERS
+  // ========================================
+
+  const filters = {
+
+    original: "none",
+
+    y2k:
+      "saturate(1.55) contrast(1.08) brightness(1.08) hue-rotate(-8deg)",
+
+    beautify:
+      "brightness(1.12) saturate(0.92) contrast(0.91)",
+
+    retro:
+      "sepia(0.48) saturate(1.2) contrast(1.08)",
+
+    dramatic:
+      "contrast(1.35) saturate(1.15) brightness(0.94)",
+
+    dreamy:
+      "brightness(1.16) saturate(0.78) contrast(0.88) blur(0.15px)",
+
+    noir:
+      "grayscale(1) contrast(1.35) brightness(0.95)",
+
+    disposable:
+      "sepia(0.2) saturate(1.4) contrast(1.12) brightness(1.08)",
+
+    cocoa:
+      "sepia(0.45) saturate(0.8) brightness(0.94) contrast(1.1)",
+
+    peachy:
+      "sepia(0.18) saturate(1.2) brightness(1.08) hue-rotate(-8deg)",
+
+    coolblue:
+      "saturate(0.9) hue-rotate(15deg) brightness(1.05) contrast(1.05)",
+
+    flash:
+      "brightness(1.28) contrast(1.15) saturate(1.1)"
+  };
+
+
+  const filterNames = {
+    original: "ORIGINAL",
+    y2k: "Y2K",
+    beautify: "BEAUTIFY",
+    retro: "RETRO",
+    dramatic: "DRAMATIC",
+    dreamy: "DREAMY",
+    noir: "NOIR",
+    disposable: "DISPOSABLE",
+    cocoa: "COCOA",
+    peachy: "PEACHY",
+    coolblue: "COOL BLUE",
+    flash: "FLASH"
+  };
+
+
+  // ========================================
+  // FRAME INFORMATION
+  // ========================================
+
+  const frameInformation = {
+
+    editorial: {
+      name: "EDITORIAL TYPE",
+      note: "Clean editorial typography, thin borders, and edition numbers."
+    },
+
+    retro: {
+      name: "RETRO PATTERN",
+      note: "Warm retro dots with burgundy and peach accents."
+    },
+
+    check: {
+      name: "GRAPHIC CHECK",
+      note: "Geometric checker pattern in teal and butter."
+    },
+
+    bloom: {
+      name: "ORGANIC BLOOM",
+      note: "Abstract floral details with warm colors."
+    },
+
+    minimal: {
+      name: "MINIMAL PRINT",
+      note: "A simple print with thin borders and subtle labels."
+    }
+
+  };
+
+
+  // ========================================
+  // LAYOUT INFORMATION
+  // ========================================
+
+  const layoutInformation = {
+
+    single: "One large photo composition.",
+
+    vertical: "Photos arranged from top to bottom.",
+
+    horizontal: "Photos arranged from left to right.",
+
+    grid: "Photos arranged in a balanced grid.",
+
+    asymmetric: "Photos arranged in an editorial asymmetric layout.",
+
+    freeform: "A playful composition with varied photo sizes."
+  };
+
+
+  // ========================================
+  // STATE
+  // ========================================
+
+  let cameraStream = null;
+
+  let selectedFilter = "original";
+  let selectedLayout = "vertical";
+  let selectedFrame = "editorial";
+  let selectedSize = "4x6";
+
+  let capturedPhotos = [];
+  let finalPhotoData = null;
+
+  let isCapturing = false;
+  let isSending = false;
+
+
+  // ========================================
+  // STATUS HELPER
+  // ========================================
+
+  function updateStatus(message) {
+
+    cameraStatusElements.forEach(element => {
+      element.textContent = message;
+    });
+
+  }
+
+
+  // ========================================
+  // HOME TO BOOTH
+  // ========================================
+
+  startBtn.addEventListener("click", async () => {
 
     homePage.classList.add("hidden");
     boothPage.classList.remove("hidden");
 
-    cameraStatus.textContent = "CONNECTING TO CAMERA...";
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
 
-    startBtn.disabled = true;
+    updateStatus("Requesting camera permission...");
+
+    await startCamera();
+
+  });
+
+
+  // ========================================
+  // CAMERA
+  // ========================================
+
+  async function startCamera() {
+
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+
+      updateStatus(
+        "Your browser does not support camera access. Please use a supported browser."
+      );
+
+      cameraHint.textContent = "CAMERA NOT SUPPORTED";
+
+      return;
+
+    }
 
     try {
 
-        if (!navigator.mediaDevices?.getUserMedia) {
-            throw new Error("Camera is not supported in this browser.");
-        }
+      if (cameraStream) {
+        stopCamera();
+      }
 
-        cameraStream = await navigator.mediaDevices.getUserMedia({
+      cameraStream = await navigator.mediaDevices.getUserMedia({
 
-            video: {
-                facingMode: "user",
-                width: { ideal: 1280 },
-                height: { ideal: 720 }
-            },
+        video: {
+          facingMode: "user",
+          width: {
+            ideal: 1280
+          },
+          height: {
+            ideal: 720
+          }
+        },
 
-            audio: false
+        audio: false
 
-        });
+      });
 
-        video.srcObject = cameraStream;
+      video.srcObject = cameraStream;
 
-        await video.play();
+      await video.play();
 
-        video.style.filter = filters[selectedFilter];
+      video.style.filter = filters[selectedFilter];
 
-        cameraStatus.textContent =
-            "CAMERA READY — LET'S CAPTURE SOMETHING.";
+      cameraHint.classList.add("hidden");
 
-        captureBtn.disabled = false;
+      captureBtn.disabled = false;
+
+      updateStatus("Camera connected. Your booth is ready!");
+
+      updateLivePreview();
 
     } catch (error) {
 
-        console.error("Camera error:", error);
+      console.error("Camera error:", error);
 
-        cameraStatus.textContent =
-            "CAMERA ACCESS FAILED — PLEASE ALLOW CAMERA PERMISSION.";
+      captureBtn.disabled = true;
 
-        startBtn.disabled = false;
+      cameraHint.classList.remove("hidden");
+
+      cameraHint.textContent = "CAMERA ACCESS REQUIRED";
+
+      if (error.name === "NotAllowedError") {
+
+        updateStatus(
+          "Camera permission denied. Please allow camera access in your browser settings."
+        );
+
+      } else if (error.name === "NotFoundError") {
+
+        updateStatus(
+          "No camera detected. Please connect a camera and try again."
+        );
+
+      } else {
+
+        updateStatus(
+          "Unable to access camera. Please check your camera and try again."
+        );
+
+      }
 
     }
 
-});
+  }
 
 
-// ======================================
-// MEMILIH FILTER
-// ======================================
+  function stopCamera() {
 
-filterButtons.forEach(button => {
+    if (cameraStream) {
 
-    button.addEventListener("click", function () {
+      cameraStream.getTracks().forEach(track => {
+        track.stop();
+      });
 
-        if (isCapturing) return;
+      cameraStream = null;
 
-        filterButtons.forEach(btn => {
-            btn.classList.remove("active");
-        });
+    }
 
-        this.classList.add("active");
+    video.srcObject = null;
 
-        selectedFilter = this.dataset.filter;
+  }
 
-        video.style.filter = filters[selectedFilter];
+
+  // ========================================
+  // LIVE PREVIEW
+  // ========================================
+
+  function updateLivePreview() {
+
+    if (previewModeLabel) {
+
+      previewModeLabel.textContent =
+        "LIVE / " + filterNames[selectedFilter];
+
+    }
+
+    if (video) {
+
+      video.style.filter = filters[selectedFilter];
+
+    }
+
+    if (miniOutput) {
+
+      miniOutput.dataset.layout = selectedLayout;
+
+      miniOutput.dataset.frame = selectedFrame;
+
+    }
+
+    updateFramePreview();
+
+    updateDesignPreviewName();
+
+  }
+
+
+  // ========================================
+  // FILTER SELECTION
+  // ========================================
+
+  filterButtons.forEach(button => {
+
+    button.addEventListener("click", () => {
+
+      const filter = button.dataset.filter;
+
+      if (!Object.prototype.hasOwnProperty.call(filters, filter)) return;
+
+      selectedFilter = filter;
+
+      filterButtons.forEach(item => {
+        item.classList.remove("active");
+      });
+
+      button.classList.add("active");
+
+      video.style.filter = filters[selectedFilter];
+
+      if (previewModeLabel) {
+
+        previewModeLabel.textContent =
+          "LIVE / " + filterNames[selectedFilter];
+
+      }
 
     });
 
-});
+  });
 
 
-// ======================================
-// PILIHAN FORMAT DAN UKURAN FOTO
-// ======================================
+  // ========================================
+  // FRAME SELECTION
+  // ========================================
 
-photoFormat.addEventListener("change", function () {
+  frameChoices.forEach(button => {
 
-    if (this.value === "strip") {
+    button.addEventListener("click", () => {
 
-        photoSize.value = "2x6";
+      const frame = button.dataset.frameChoice;
 
-        photoSize.disabled = true;
+      if (!frameInformation[frame]) return;
 
-        sizeNote.textContent =
-            "PHOTO STRIP — 2 × 6 INCHES / 3 FRAMES.";
+      selectedFrame = frame;
 
-    } else {
+      frameStyle.value = frame;
 
-        photoSize.disabled = false;
+      frameChoices.forEach(item => {
 
-        photoSize.value = "4x6";
+        item.classList.remove("active");
+        item.setAttribute("aria-pressed", "false");
 
-        sizeNote.textContent =
-            "SELECT YOUR PREFERRED PHOTO SIZE.";
+      });
+
+      button.classList.add("active");
+      button.setAttribute("aria-pressed", "true");
+
+      updateFramePreview();
+
+    });
+
+  });
+
+
+  frameStyle.addEventListener("change", () => {
+
+    const frame = frameStyle.value;
+
+    if (!frameInformation[frame]) return;
+
+    selectedFrame = frame;
+
+    frameChoices.forEach(button => {
+
+      const active = button.dataset.frameChoice === frame;
+
+      button.classList.toggle("active", active);
+
+      button.setAttribute(
+        "aria-pressed",
+        active ? "true" : "false"
+      );
+
+    });
+
+    updateFramePreview();
+
+  });
+
+
+  function updateFramePreview() {
+
+    const information = frameInformation[selectedFrame];
+
+    if (!information) return;
+
+    if (frameNote) {
+      frameNote.textContent = information.note;
+    }
+
+    if (liveFrameOverlay) {
+
+      liveFrameOverlay.className =
+        "live-frame-overlay frame-" + selectedFrame;
 
     }
 
-});
-
-
-// ======================================
-// COUNTDOWN
-// ======================================
-
-function wait(ms) {
-
-    return new Promise(resolve => setTimeout(resolve, ms));
-
-}
-
-
-async function runCountdown() {
-
-    for (let i = 3; i >= 1; i--) {
-
-        countdown.textContent = i;
-
-        await wait(1000);
-
+    if (miniOutput) {
+      miniOutput.dataset.frame = selectedFrame;
     }
 
-    countdown.textContent = "SMILE!";
+    updateDesignPreviewName();
 
-    await wait(500);
-
-    countdown.textContent = "";
-
-}
+  }
 
 
-// ======================================
-// MENGAMBIL FOTO DARI KAMERA
-// ======================================
+  // ========================================
+  // LAYOUT SELECTION
+  // ========================================
 
-function captureFrame() {
+  photoLayout.addEventListener("change", () => {
 
-    if (!video.videoWidth || !video.videoHeight) {
+    selectedLayout = photoLayout.value;
 
-        throw new Error("Camera is not ready.");
+    layoutNote.textContent =
+      layoutInformation[selectedLayout];
 
-    }
+    miniOutput.dataset.layout = selectedLayout;
 
-    const tempCanvas = document.createElement("canvas");
+    updateDesignPreviewName();
 
-    tempCanvas.width = video.videoWidth;
-    tempCanvas.height = video.videoHeight;
+  });
 
-    const ctx = tempCanvas.getContext("2d");
+
+  // ========================================
+  // PHOTO SIZE
+  // ========================================
+
+  photoSize.addEventListener("change", () => {
+
+    selectedSize = photoSize.value;
+
+    const sizeMessages = {
+
+      "4x6": "4 × 6 inch photo proportion.",
+
+      "4x4": "Square 4 × 4 inch photo proportion.",
+
+      "2x6": "Narrow 2 × 6 inch photostrip proportion."
+
+    };
+
+    sizeNote.textContent = sizeMessages[selectedSize];
+
+  });
+
+
+  // ========================================
+  // SHOT COUNT
+  // ========================================
+
+  shotCount.addEventListener("change", () => {
+
+    updateDesignPreviewName();
+
+  });
+
+
+  // ========================================
+  // DESIGN PREVIEW LABEL
+  // ========================================
+
+  function updateDesignPreviewName() {
+
+    const layoutName = selectedLayout.toUpperCase();
+
+    const frameName = frameInformation[selectedFrame].name;
+
+    designPreviewName.textContent =
+      layoutName + " / " + frameName;
+
+  }
+
+
+  // ========================================
+  // COUNTDOWN
+  // ========================================
+
+  function runCountdown() {
+
+    return new Promise(resolve => {
+
+      let number = 3;
+
+      countdown.classList.remove("hidden");
+
+      countdown.textContent = number;
+
+      const timer = setInterval(() => {
+
+        number--;
+
+        if (number > 0) {
+
+          countdown.textContent = number;
+
+        } else {
+
+          clearInterval(timer);
+
+          countdown.textContent = "SMILE!";
+
+          setTimeout(() => {
+
+            countdown.textContent = "";
+
+            countdown.classList.add("hidden");
+
+            resolve();
+
+          }, 650);
+
+        }
+
+      }, 1000);
+
+    });
+
+  }
+
+
+  // ========================================
+  // CAPTURE PHOTO
+  // ========================================
+
+  function captureFrame() {
+
+    const canvas = document.createElement("canvas");
+
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
+
+    const ctx = canvas.getContext("2d");
+
+    ctx.translate(canvas.width, 0);
+    ctx.scale(-1, 1);
 
     ctx.filter = filters[selectedFilter];
 
-    // Mirror selfie
-
-    ctx.translate(tempCanvas.width, 0);
-    ctx.scale(-1, 1);
-
     ctx.drawImage(
-        video,
-        0,
-        0,
-        tempCanvas.width,
-        tempCanvas.height
+      video,
+      0,
+      0,
+      canvas.width,
+      canvas.height
     );
 
-    return tempCanvas;
+    ctx.filter = "none";
 
-}
+    return canvas.toDataURL("image/jpeg", 0.94);
+
+  }
 
 
-// ======================================
-// CROP FOTO
-// ======================================
+  // ========================================
+  // LOAD IMAGE
+  // ========================================
 
-function drawCover(ctx, img, x, y, width, height) {
+  function loadImage(dataURL) {
 
-    const sourceRatio = img.width / img.height;
+    return new Promise((resolve, reject) => {
+
+      const img = new Image();
+
+      img.onload = () => resolve(img);
+
+      img.onerror = reject;
+
+      img.src = dataURL;
+
+    });
+
+  }
+
+
+  // ========================================
+  // CANVAS HELPERS
+  // ========================================
+
+  function drawCover(ctx, image, x, y, width, height) {
+
+    const imageRatio = image.width / image.height;
+
     const targetRatio = width / height;
 
-    let sx = 0;
-    let sy = 0;
+    let sourceX = 0;
+    let sourceY = 0;
 
-    let sw = img.width;
-    let sh = img.height;
+    let sourceWidth = image.width;
+    let sourceHeight = image.height;
 
-    if (sourceRatio > targetRatio) {
+    if (imageRatio > targetRatio) {
 
-        sw = img.height * targetRatio;
+      sourceWidth = image.height * targetRatio;
 
-        sx = (img.width - sw) / 2;
+      sourceX = (image.width - sourceWidth) / 2;
 
     } else {
 
-        sh = img.width / targetRatio;
+      sourceHeight = image.width / targetRatio;
 
-        sy = (img.height - sh) / 2;
+      sourceY = (image.height - sourceHeight) / 2;
 
     }
 
     ctx.drawImage(
-        img,
-        sx,
-        sy,
-        sw,
-        sh,
-        x,
-        y,
-        width,
-        height
+      image,
+      sourceX,
+      sourceY,
+      sourceWidth,
+      sourceHeight,
+      x,
+      y,
+      width,
+      height
     );
 
-}
+  }
 
 
-// ======================================
-// MEMBUAT SINGLE PHOTO
-// ======================================
+  function drawText(ctx, text, x, y, size, color, align = "center") {
 
-function createSinglePhoto(img) {
+    ctx.fillStyle = color;
 
-    const size = photoSize.value;
+    ctx.font = `600 ${size}px "IBM Plex Mono", monospace`;
 
-    let width = 1200;
-    let height = 1800;
+    ctx.textAlign = align;
 
-    if (size === "4x4") {
+    ctx.fillText(text, x, y);
 
-        width = 1200;
-        height = 1200;
+  }
+
+
+  function drawPattern(ctx, type, x, y, width, height) {
+
+    ctx.save();
+
+    if (type === "retro") {
+
+      const colors = [COLORS.peach, COLORS.red];
+
+      for (let row = 0; row < height; row += 28) {
+
+        for (let col = 0; col < width; col += 28) {
+
+          const offset = (Math.floor(row / 28) % 2) * 14;
+
+          ctx.beginPath();
+
+          ctx.fillStyle =
+            colors[(Math.floor(col / 28) + Math.floor(row / 28)) % 2];
+
+          ctx.arc(
+            x + col + offset,
+            y + row,
+            5,
+            0,
+            Math.PI * 2
+          );
+
+          ctx.fill();
+
+        }
+
+      }
 
     }
 
-    if (size === "2x6") {
 
-        width = 600;
-        height = 1800;
+    if (type === "check") {
+
+      const cell = 24;
+
+      for (let row = 0; row < height; row += cell) {
+
+        for (let col = 0; col < width; col += cell) {
+
+          const isTeal =
+            (Math.floor(row / cell) + Math.floor(col / cell)) % 2 === 0;
+
+          ctx.fillStyle = isTeal ? COLORS.teal : COLORS.butter;
+
+          ctx.fillRect(
+            x + col,
+            y + row,
+            cell,
+            cell
+          );
+
+        }
+
+      }
 
     }
 
-    const output = document.createElement("canvas");
 
-    output.width = width;
-    output.height = height;
+    if (type === "bloom") {
 
-    const ctx = output.getContext("2d");
+      for (let row = 0; row < height; row += 32) {
 
-    // Background photo
+        for (let col = 0; col < width; col += 32) {
 
-    ctx.fillStyle = COLORS.offWhite;
+          const cx = x + col + 12;
+          const cy = y + row + 12;
 
-    ctx.fillRect(0, 0, width, height);
+          ctx.fillStyle = COLORS.burgundy;
 
-    const padding = Math.round(width * 0.045);
+          for (let petal = 0; petal < 6; petal++) {
 
-    drawCover(
-        ctx,
-        img,
+            const angle = petal * Math.PI / 3;
+
+            ctx.beginPath();
+
+            ctx.ellipse(
+              cx + Math.cos(angle) * 6,
+              cy + Math.sin(angle) * 6,
+              4,
+              7,
+              angle,
+              0,
+              Math.PI * 2
+            );
+
+            ctx.fill();
+
+          }
+
+          ctx.beginPath();
+
+          ctx.fillStyle = COLORS.red;
+
+          ctx.arc(cx, cy, 3, 0, Math.PI * 2);
+
+          ctx.fill();
+
+        }
+
+      }
+
+    }
+
+    ctx.restore();
+
+  }
+
+
+  // ========================================
+  // FRAME BACKGROUND
+  // ========================================
+
+  function drawFrameBackground(ctx, width, height, frame) {
+
+    const padding = Math.round(width * 0.035);
+
+    const patternArea = Math.round(width * 0.055);
+
+    if (frame === "editorial") {
+
+      ctx.fillStyle = COLORS.butter;
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.strokeStyle = COLORS.indigo;
+      ctx.lineWidth = Math.max(3, width * 0.004);
+
+      ctx.strokeRect(
         padding,
         padding,
         width - padding * 2,
         height - padding * 2
+      );
+
+    }
+
+
+    if (frame === "retro") {
+
+      ctx.fillStyle = COLORS.burgundy;
+      ctx.fillRect(0, 0, width, height);
+
+      drawPattern(
+        ctx,
+        "retro",
+        0,
+        0,
+        width,
+        height
+      );
+
+    }
+
+
+    if (frame === "check") {
+
+      ctx.fillStyle = COLORS.butter;
+      ctx.fillRect(0, 0, width, height);
+
+      drawPattern(
+        ctx,
+        "check",
+        0,
+        0,
+        width,
+        height
+      );
+
+    }
+
+
+    if (frame === "bloom") {
+
+      ctx.fillStyle = COLORS.peach;
+      ctx.fillRect(0, 0, width, height);
+
+      drawPattern(
+        ctx,
+        "bloom",
+        0,
+        0,
+        width,
+        height
+      );
+
+    }
+
+
+    if (frame === "minimal") {
+
+      ctx.fillStyle = COLORS.butter;
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.strokeStyle = COLORS.indigo;
+      ctx.lineWidth = Math.max(2, width * 0.002);
+
+      ctx.strokeRect(
+        padding,
+        padding,
+        width - padding * 2,
+        height - padding * 2
+      );
+
+      ctx.strokeRect(
+        padding * 2,
+        padding * 2,
+        width - padding * 4,
+        height - padding * 4
+      );
+
+    }
+
+    return {
+      padding,
+      patternArea
+    };
+
+  }
+
+
+  // ========================================
+  // PHOTO PLACEMENT
+  // ========================================
+
+  function getPhotoPositions(width, height, count, layout) {
+
+    const margin = Math.round(width * 0.065);
+
+    const gap = Math.round(width * 0.025);
+
+    const innerWidth = width - margin * 2;
+    const innerHeight = height - margin * 2;
+
+    const positions = [];
+
+    if (layout === "single") {
+
+      positions.push({
+        x: margin,
+        y: margin,
+        w: innerWidth,
+        h: innerHeight
+      });
+
+    }
+
+
+    if (layout === "vertical") {
+
+      const photoHeight =
+        (innerHeight - gap * (count - 1)) / count;
+
+      for (let i = 0; i < count; i++) {
+
+        positions.push({
+
+          x: margin,
+          y: margin + i * (photoHeight + gap),
+          w: innerWidth,
+          h: photoHeight
+
+        });
+
+      }
+
+    }
+
+
+    if (layout === "horizontal") {
+
+      const photoWidth =
+        (innerWidth - gap * (count - 1)) / count;
+
+      for (let i = 0; i < count; i++) {
+
+        positions.push({
+
+          x: margin + i * (photoWidth + gap),
+          y: margin,
+          w: photoWidth,
+          h: innerHeight
+
+        });
+
+      }
+
+    }
+
+
+    if (layout === "grid") {
+
+      const columns = Math.ceil(Math.sqrt(count));
+
+      const rows = Math.ceil(count / columns);
+
+      const cellWidth =
+        (innerWidth - gap * (columns - 1)) / columns;
+
+      const cellHeight =
+        (innerHeight - gap * (rows - 1)) / rows;
+
+      for (let i = 0; i < count; i++) {
+
+        const col = i % columns;
+
+        const row = Math.floor(i / columns);
+
+        positions.push({
+
+          x: margin + col * (cellWidth + gap),
+          y: margin + row * (cellHeight + gap),
+          w: cellWidth,
+          h: cellHeight
+
+        });
+
+      }
+
+    }
+
+
+    if (layout === "asymmetric") {
+
+      const firstHeight = innerHeight * 0.43;
+
+      const remaining = innerHeight - firstHeight - gap;
+
+      positions.push({
+
+        x: margin,
+        y: margin,
+        w: innerWidth,
+        h: firstHeight
+
+      });
+
+      const remainingCount = count - 1;
+
+      if (remainingCount > 0) {
+
+        const cellWidth =
+          (innerWidth - gap * (remainingCount - 1)) / remainingCount;
+
+        for (let i = 0; i < remainingCount; i++) {
+
+          positions.push({
+
+            x: margin + i * (cellWidth + gap),
+            y: margin + firstHeight + gap,
+            w: cellWidth,
+            h: remaining
+
+          });
+
+        }
+
+      }
+
+    }
+
+
+    if (layout === "freeform") {
+
+      const columns = 2;
+
+      const rows = Math.ceil(count / columns);
+
+      const cellWidth = (innerWidth - gap) / 2;
+
+      const cellHeight =
+        (innerHeight - gap * (rows - 1)) / rows;
+
+      for (let i = 0; i < count; i++) {
+
+        const row = Math.floor(i / 2);
+
+        const col = i % 2;
+
+        const isWide = i === 0 && count > 2;
+
+        positions.push({
+
+          x: margin + col * (cellWidth + gap),
+          y: margin + row * (cellHeight + gap),
+          w: isWide ? innerWidth : cellWidth,
+          h: isWide ? cellHeight * 1.5 : cellHeight
+
+        });
+
+      }
+
+    }
+
+    return positions;
+
+  }
+
+
+  // ========================================
+  // OUTPUT SIZE
+  // ========================================
+
+  function getOutputSize(layout, size, count) {
+
+    const sizes = {
+
+      "4x6": {
+        width: 1200,
+        height: 1800
+      },
+
+      "4x4": {
+        width: 1200,
+        height: 1200
+      },
+
+      "2x6": {
+        width: 600,
+        height: 1800
+      }
+
+    };
+
+    const base = sizes[size] || sizes["4x6"];
+
+    if (layout === "vertical") {
+
+      return {
+        width: base.width,
+        height: Math.max(base.height, count * 430)
+      };
+
+    }
+
+    if (layout === "horizontal") {
+
+      return {
+        width: Math.max(base.width, count * 430),
+        height: base.height
+      };
+
+    }
+
+    if (layout === "single") {
+
+      return base;
+
+    }
+
+    return {
+      width: 1500,
+      height: 1500
+    };
+
+  }
+
+
+  // ========================================
+  // COMPOSE FINAL PHOTO
+  // ========================================
+
+  async function composeFinalPhoto(photos) {
+
+    const count = photos.length;
+
+    const outputSize = getOutputSize(
+      selectedLayout,
+      selectedSize,
+      count
     );
 
-    return output;
+    const canvas = document.createElement("canvas");
 
-}
+    canvas.width = outputSize.width;
+    canvas.height = outputSize.height;
 
+    const ctx = canvas.getContext("2d");
 
-// ======================================
-// MEMBUAT PHOTO STRIP
-// ======================================
+    const width = canvas.width;
+    const height = canvas.height;
 
-function createPhotoStrip(photos) {
-
-    const output = document.createElement("canvas");
-
-    output.width = 600;
-    output.height = 1800;
-
-    const ctx = output.getContext("2d");
-
-    // Main background
-
-    ctx.fillStyle = COLORS.offWhite;
-
-    ctx.fillRect(0, 0, 600, 1800);
-
-    const padding = 35;
-    const gap = 20;
-
-    const photoWidth = 530;
-    const photoHeight = 535;
-
-    photos.forEach((photo, index) => {
-
-        const y = padding + index * (photoHeight + gap);
-
-        drawCover(
-            ctx,
-            photo,
-            padding,
-            y,
-            photoWidth,
-            photoHeight
-        );
-
-    });
-
-    // Editorial footer
-
-    ctx.fillStyle = COLORS.deepTeal;
-
-    ctx.fillRect(0, 1740, 600, 60);
-
-    ctx.fillStyle = COLORS.warmYellow;
-
-    ctx.font = "bold 22px monospace";
-
-    ctx.textAlign = "center";
-
-    ctx.fillText(
-        "KLIKEBOOTH / 2026",
-        300,
-        1777
+    drawFrameBackground(
+      ctx,
+      width,
+      height,
+      selectedFrame
     );
 
-    return output;
+    const padding = Math.round(width * 0.065);
 
-}
+    const footerHeight = Math.round(height * 0.065);
+
+    const photoAreaHeight = height - footerHeight;
+
+    const positions = getPhotoPositions(
+      width,
+      photoAreaHeight,
+      count,
+      selectedLayout
+    );
+
+    const images = await Promise.all(
+      photos.map(photo => loadImage(photo))
+    );
 
 
-// ======================================
-// PROSES PENGAMBILAN FOTO
-// ======================================
+    // Draw photo backgrounds and photos
 
-captureBtn.addEventListener("click", async function () {
+    for (let i = 0; i < images.length; i++) {
 
-    if (isCapturing || !cameraStream) return;
+      const position = positions[i];
+
+      if (!position) continue;
+
+      const border = Math.max(5, Math.round(width * 0.008));
+
+      ctx.fillStyle = COLORS.peach;
+
+      ctx.fillRect(
+        position.x - border,
+        position.y - border,
+        position.w + border * 2,
+        position.h + border * 2
+      );
+
+      ctx.save();
+
+      ctx.beginPath();
+
+      ctx.rect(
+        position.x,
+        position.y,
+        position.w,
+        position.h
+      );
+
+      ctx.clip();
+
+      drawCover(
+        ctx,
+        images[i],
+        position.x,
+        position.y,
+        position.w,
+        position.h
+      );
+
+      ctx.restore();
+
+    }
+
+
+    // Footer background
+
+    const footerY = height - footerHeight;
+
+    ctx.fillStyle =
+      selectedFrame === "retro" ? COLORS.burgundy :
+      selectedFrame === "bloom" ? COLORS.burgundy :
+      selectedFrame === "check" ? COLORS.teal :
+      COLORS.butter;
+
+    ctx.fillRect(
+      0,
+      footerY,
+      width,
+      footerHeight
+    );
+
+
+    // Footer typography
+
+    const footerColor =
+      selectedFrame === "retro" ||
+      selectedFrame === "bloom" ||
+      selectedFrame === "check"
+        ? COLORS.peach
+        : COLORS.indigo;
+
+    const textSize = Math.max(15, Math.round(width * 0.018));
+
+    drawText(
+      ctx,
+      "KLIKEBOOTH",
+      width / 2,
+      footerY + footerHeight * 0.43,
+      textSize,
+      footerColor
+    );
+
+    drawText(
+      ctx,
+      "PEEK A BOOTH  /  2026",
+      width / 2,
+      footerY + footerHeight * 0.75,
+      Math.max(10, Math.round(width * 0.009)),
+      footerColor
+    );
+
+
+    // Frame-specific decorations
+
+    if (selectedFrame === "editorial") {
+
+      drawText(
+        ctx,
+        "NO. 001",
+        padding,
+        height - footerHeight * 0.25,
+        Math.max(11, Math.round(width * 0.012)),
+        COLORS.indigo,
+        "left"
+      );
+
+    }
+
+
+    if (selectedFrame === "retro") {
+
+      drawText(
+        ctx,
+        "GOOD TIMES",
+        width / 2,
+        35,
+        Math.max(14, Math.round(width * 0.018)),
+        COLORS.peach
+      );
+
+    }
+
+
+    if (selectedFrame === "check") {
+
+      drawText(
+        ctx,
+        "KLK / 001",
+        width / 2,
+        35,
+        Math.max(14, Math.round(width * 0.018)),
+        COLORS.indigo
+      );
+
+    }
+
+
+    if (selectedFrame === "bloom") {
+
+      drawText(
+        ctx,
+        "IN BLOOM",
+        width / 2,
+        35,
+        Math.max(14, Math.round(width * 0.018)),
+        COLORS.peach
+      );
+
+    }
+
+
+    if (selectedFrame === "minimal") {
+
+      drawText(
+        ctx,
+        "MEMORY NO. 001",
+        width / 2,
+        height - footerHeight * 0.25,
+        Math.max(11, Math.round(width * 0.012)),
+        COLORS.indigo
+      );
+
+    }
+
+    return canvas.toDataURL("image/jpeg", 0.95);
+
+  }
+
+
+  // ========================================
+  // CAPTURE SESSION
+  // ========================================
+
+  captureBtn.addEventListener("click", async () => {
+
+    if (!cameraStream || isCapturing) return;
+
+    if (video.readyState < 2) {
+
+      updateStatus("Camera is not ready yet. Please wait.");
+
+      return;
+
+    }
 
     isCapturing = true;
+
+    capturedPhotos = [];
+
+    finalPhotoData = null;
 
     captureBtn.disabled = true;
 
     retakeBtn.classList.add("hidden");
 
-    capturedPhotos = [];
+    resultSection.classList.add("hidden");
 
-    const isStrip = photoFormat.value === "strip";
+    const totalShots = Number(shotCount.value);
 
-    const totalPhotos = isStrip ? 3 : 1;
+    captureBtn.textContent = "CAPTURING...";
+
+    updateStatus(
+      "Get ready! Your photo session is starting."
+    );
 
     try {
 
-        for (let i = 0; i < totalPhotos; i++) {
+      for (let i = 0; i < totalShots; i++) {
 
-            cameraStatus.textContent = isStrip
-                ? `FRAME ${i + 1} / 3 — GET READY.`
-                : "GET READY FOR YOUR PHOTO.";
+        updateStatus(
+          `Photo ${i + 1} of ${totalShots}. Get ready!`
+        );
 
-            await runCountdown();
+        await runCountdown();
 
-            capturedPhotos.push(captureFrame());
+        capturedPhotos.push(captureFrame());
 
-            if (i < totalPhotos - 1) {
-
-                cameraStatus.textContent =
-                    "FRAME CAPTURED — PREPARE FOR THE NEXT SHOT.";
-
-                await wait(1000);
-
-            }
-
-        }
-
-        let finalCanvas;
-
-        if (isStrip) {
-
-            finalCanvas = createPhotoStrip(capturedPhotos);
-
-        } else {
-
-            finalCanvas = createSinglePhoto(capturedPhotos[0]);
-
-        }
-
-        // Convert to JPEG
-
-        photoData = finalCanvas.toDataURL("image/jpeg", 0.95);
-
-        photoResult.src = photoData;
-
-        video.classList.add("hidden");
-
-        resultSection.classList.remove("hidden");
-
-        retakeBtn.classList.remove("hidden");
-
-        downloadBtn.disabled = false;
-
-        cameraStatus.textContent =
-            "CAPTURE COMPLETE — YOUR PHOTO IS READY.";
-
-        sendBtn.disabled = true;
-
-        emailInput.value = "";
-
-        sendStatus.textContent = "";
-
-        resultSection.scrollIntoView({
-
-            behavior: "smooth"
-
+        await new Promise(resolve => {
+          setTimeout(resolve, 350);
         });
+
+      }
+
+
+      updateStatus("Creating your final photo...");
+
+      finalPhotoData = await composeFinalPhoto(capturedPhotos);
+
+      photoResult.src = finalPhotoData;
+
+      resultSection.classList.remove("hidden");
+
+      video.classList.add("hidden");
+
+      liveFrameOverlay.classList.add("hidden");
+
+      cameraHint.classList.add("hidden");
+
+      downloadBtn.disabled = false;
+
+      retakeBtn.classList.remove("hidden");
+
+      emailInput.value = "";
+
+      sendBtn.disabled = true;
+
+      sendStatus.textContent = "";
+
+      resultSection.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      updateStatus("Your photo is ready!");
 
     } catch (error) {
 
-        console.error("Capture error:", error);
+      console.error("Capture error:", error);
 
-        cameraStatus.textContent =
-            "CAPTURE FAILED — PLEASE TRY AGAIN.";
-
-        captureBtn.disabled = false;
+      updateStatus(
+        "Something went wrong while creating your photo. Please try again."
+      );
 
     } finally {
 
-        isCapturing = false;
+      isCapturing = false;
+
+      captureBtn.disabled = false;
+
+      captureBtn.textContent = "CAPTURE SESSION ↗";
 
     }
 
-});
+  });
 
 
-// ======================================
-// RETAKE FOTO
-// ======================================
+  // ========================================
+  // RETAKE
+  // ========================================
 
-retakeBtn.addEventListener("click", function () {
-
-    if (isCapturing || isSending) return;
-
-    photoData = null;
+  retakeBtn.addEventListener("click", () => {
 
     capturedPhotos = [];
 
-    video.classList.remove("hidden");
+    finalPhotoData = null;
+
+    photoResult.removeAttribute("src");
 
     resultSection.classList.add("hidden");
+
+    video.classList.remove("hidden");
+
+    liveFrameOverlay.classList.remove("hidden");
+
+    cameraHint.classList.add("hidden");
 
     retakeBtn.classList.add("hidden");
 
     downloadBtn.disabled = true;
-
-    captureBtn.disabled = false;
 
     sendBtn.disabled = true;
 
@@ -546,72 +1540,77 @@ retakeBtn.addEventListener("click", function () {
 
     sendStatus.textContent = "";
 
-    video.style.filter = filters[selectedFilter];
+    captureBtn.disabled = !cameraStream;
 
-    cameraStatus.textContent =
-        "CAMERA READY — PREPARE YOUR NEXT SHOT.";
+    captureBtn.textContent = "CAPTURE SESSION ↗";
 
-    video.scrollIntoView({
+    updateStatus("Ready for another session!");
 
-        behavior: "smooth",
-
-        block: "center"
-
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
     });
 
-});
+  });
 
 
-// ======================================
-// VALIDASI EMAIL
-// ======================================
+  // ========================================
+  // EMAIL VALIDATION
+  // ========================================
 
-emailInput.addEventListener("input", function () {
+  emailInput.addEventListener("input", () => {
 
-    sendBtn.disabled = !(
-        emailInput.checkValidity() &&
-        emailInput.value.trim() !== "" &&
-        photoData &&
-        !isSending
-    );
+    const email = emailInput.value.trim();
 
-});
+    const emailPattern =
+      /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    sendBtn.disabled =
+      !emailPattern.test(email) ||
+      !finalPhotoData ||
+      isSending;
+
+  });
 
 
-// ======================================
-// DOWNLOAD FOTO
-// ======================================
+  // ========================================
+  // DOWNLOAD PHOTO
+  // ========================================
 
-downloadBtn.addEventListener("click", function () {
+  downloadBtn.addEventListener("click", () => {
 
-    if (!photoData) return;
+    if (!finalPhotoData) return;
 
     const link = document.createElement("a");
 
-    link.href = photoData;
+    link.href = finalPhotoData;
 
-    link.download = photoFormat.value === "strip"
-        ? "klikebooth-strip.jpg"
-        : "klikebooth-photo.jpg";
+    link.download = "klikebooth-photo.jpg";
+
+    document.body.appendChild(link);
 
     link.click();
 
-});
+    link.remove();
+
+  });
 
 
-// ======================================
-// KIRIM FOTO KE N8N WEBHOOK
-// ======================================
+  // ========================================
+  // SEND PHOTO TO N8N
+  // ========================================
 
-sendBtn.addEventListener("click", async function () {
+  sendBtn.addEventListener("click", async () => {
 
-    if (
-        !photoData ||
-        !emailInput.checkValidity() ||
-        isSending
-    ) {
+    const email = emailInput.value.trim();
 
-        return;
+    if (!finalPhotoData || isSending) return;
+
+    if (!email) {
+
+      sendStatus.textContent = "Please enter your email address.";
+
+      return;
 
     }
 
@@ -619,96 +1618,108 @@ sendBtn.addEventListener("click", async function () {
 
     sendBtn.disabled = true;
 
-    sendStatus.textContent = "SENDING YOUR PHOTO...";
+    sendBtn.textContent = "SENDING...";
+
+    sendStatus.textContent =
+      "Sending your photo. Please wait...";
 
     try {
 
-        const response = await fetch(
+      const response = await fetch(WEBHOOK_URL, {
 
-            "https://doozy-audacious-cheer.ngrok-free.dev/webhook-test/klikebooth",
+        method: "POST",
 
-            {
+        headers: {
+          "Content-Type": "application/json"
+        },
 
-                method: "POST",
+        body: JSON.stringify({
 
-                headers: {
+          email: email,
 
-                    "Content-Type": "application/json"
+          photo: finalPhotoData,
 
-                },
+          filename: "klikebooth-photo.jpg",
 
-                body: JSON.stringify({
+          format: selectedLayout === "single" ? "single" : "strip",
 
-                    email: emailInput.value.trim(),
+          layout: selectedLayout,
 
-                    photo: photoData,
+          size: selectedSize,
 
-                    filename: photoFormat.value === "strip"
-                        ? "klikebooth-strip.jpg"
-                        : "klikebooth-photo.jpg",
+          filter: selectedFilter,
 
-                    format: photoFormat.value,
+          frame: selectedFrame
 
-                    size: photoSize.value,
+        })
 
-                    filter: selectedFilter
+      });
 
-                })
 
-            }
+      if (!response.ok) {
 
+        throw new Error(
+          "Server returned status " + response.status
         );
 
-        if (!response.ok) {
+      }
 
-            throw new Error("Failed to send photo.");
-
-        }
-
-        sendStatus.textContent =
-            "PHOTO SENT SUCCESSFULLY — CHECK YOUR EMAIL.";
+      sendStatus.textContent =
+        "Your photo has been sent successfully! Check your email.";
 
     } catch (error) {
 
-        console.error("Webhook error:", error);
+      console.error("Email sending error:", error);
 
-        sendStatus.textContent =
-            "SOMETHING WENT WRONG — PLEASE TRY AGAIN.";
+      sendStatus.textContent =
+        "Unable to send your photo. Please check your n8n workflow and try again.";
 
     } finally {
 
-        isSending = false;
+      isSending = false;
 
-        sendBtn.disabled = !(
-            emailInput.checkValidity() &&
-            emailInput.value.trim() !== "" &&
-            photoData
-        );
+      sendBtn.textContent = "SEND TO EMAIL ↗";
 
-    }
+      const emailPattern =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-});
-
-
-// ======================================
-// CLEANUP CAMERA
-// ======================================
-
-window.addEventListener("beforeunload", function () {
-
-    if (cameraStream) {
-
-        cameraStream.getTracks().forEach(track => {
-
-            track.stop();
-
-        });
+      sendBtn.disabled =
+        !emailPattern.test(emailInput.value.trim()) ||
+        !finalPhotoData;
 
     }
 
+  });
+
+
+  // ========================================
+  // INITIAL PREVIEW
+  // ========================================
+
+  selectedFilter = "original";
+  selectedLayout = photoLayout.value;
+  selectedFrame = frameStyle.value;
+  selectedSize = photoSize.value;
+
+  miniOutput.dataset.layout = selectedLayout;
+  miniOutput.dataset.frame = selectedFrame;
+
+  updateLivePreview();
+
+  layoutNote.textContent =
+    layoutInformation[selectedLayout];
+
+  updateStatus("Enter the booth to activate your camera.");
+
+
+  // ========================================
+  // CLEANUP
+  // ========================================
+
+  window.addEventListener("beforeunload", () => {
+
+    stopCamera();
+
+  });
+
 });
-
-
-// ======================================
-// SELESAI
-// ======================================
