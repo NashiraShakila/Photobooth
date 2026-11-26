@@ -7,6 +7,49 @@
 document.addEventListener("DOMContentLoaded", () => {
 
   // ========================================
+  // UX ANALYTICS - KLIKEBOOTH
+  // ========================================
+
+  const ANALYTICS_URL =
+    "https://doozy-audacious-cheer.ngrok-free.dev/webhook/klikebooth-ux";
+
+  let sessionId = sessionStorage.getItem("klikebooth_session");
+
+  if (!sessionId) {
+    sessionId = "KB-" + Date.now();
+    sessionStorage.setItem("klikebooth_session", sessionId);
+  }
+
+  function trackActivity(event, status = "success", duration = 0, details = "") {
+    const data = {
+      timestamp: new Date().toISOString(),
+      session_id: sessionId,
+      event: event,
+      status: status,
+      duration: duration,
+      device: /Mobi|Android/i.test(navigator.userAgent)
+        ? "mobile"
+        : "desktop",
+      details: details
+    };
+
+    fetch(ANALYTICS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(data),
+      keepalive: true
+    }).catch(error => {
+      console.error("Analytics error:", error);
+    });
+  }
+
+  // Catat ketika website dibuka
+  trackActivity("page_view");
+
+
+  // ========================================
   // ELEMENTS
   // ========================================
 
@@ -59,7 +102,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================
 
   const WEBHOOK_URL =
-    "https://doozy-audacious-cheer.ngrok-free.dev/webhook-test/klikebooth";
+  "https://doozy-audacious-cheer.ngrok-free.dev/webhook/KlikeBooth";
 
   const COLORS = {
     butter: "#EFEABB",
@@ -220,6 +263,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================
 
   startBtn.addEventListener("click", async () => {
+
+    // UX ANALYTICS: Start Booth
+    trackActivity(
+      "start_booth",
+      "success",
+      0,
+      "User started photobooth"
+    );
 
     homePage.classList.add("hidden");
     boothPage.classList.remove("hidden");
@@ -1421,6 +1472,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
     isCapturing = true;
 
+    // UX ANALYTICS: Capture duration
+    const captureStartTime = Date.now();
+
     capturedPhotos = [];
 
     finalPhotoData = null;
@@ -1462,6 +1516,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       finalPhotoData = await composeFinalPhoto(capturedPhotos);
 
+      // UX ANALYTICS: Capture berhasil
+      trackActivity(
+        "take_photo",
+        "success",
+        Math.round((Date.now() - captureStartTime) / 1000),
+        `${totalShots} photos captured successfully`
+      );
+
       photoResult.src = finalPhotoData;
 
       resultSection.classList.remove("hidden");
@@ -1493,6 +1555,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
       console.error("Capture error:", error);
 
+      // UX ANALYTICS: Capture gagal
+      trackActivity(
+        "take_photo",
+        "failed",
+        Math.round((Date.now() - captureStartTime) / 1000),
+        error.message
+      );
+
       updateStatus(
         "Something went wrong while creating your photo. Please try again."
       );
@@ -1515,6 +1585,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // ========================================
 
   retakeBtn.addEventListener("click", () => {
+
+    // UX ANALYTICS: Retake Photo
+    trackActivity(
+      "retake_photo",
+      "success",
+      0,
+      "User retook photo"
+    );
 
     capturedPhotos = [];
 
@@ -1616,6 +1694,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
     isSending = true;
 
+    // UX ANALYTICS: Waktu pengiriman dimulai
+    const sendStartTime = Date.now();
+
+    // UX ANALYTICS: Status pending
+    trackActivity(
+      "send_photo",
+      "pending",
+      0,
+      "Email sending started"
+    );
+
     sendBtn.disabled = true;
 
     sendBtn.textContent = "SENDING...";
@@ -1664,12 +1753,28 @@ document.addEventListener("DOMContentLoaded", () => {
 
       }
 
+      // UX ANALYTICS: Pengiriman berhasil
+      trackActivity(
+        "send_photo",
+        "success",
+        Math.round((Date.now() - sendStartTime) / 1000),
+        "Photo successfully sent to email"
+      );
+
       sendStatus.textContent =
         "Your photo has been sent successfully! Check your email.";
 
     } catch (error) {
 
       console.error("Email sending error:", error);
+
+      // UX ANALYTICS: Pengiriman gagal
+      trackActivity(
+        "send_photo",
+        "failed",
+        Math.round((Date.now() - sendStartTime) / 1000),
+        error.message
+      );
 
       sendStatus.textContent =
         "Unable to send your photo. Please check your n8n workflow and try again.";
